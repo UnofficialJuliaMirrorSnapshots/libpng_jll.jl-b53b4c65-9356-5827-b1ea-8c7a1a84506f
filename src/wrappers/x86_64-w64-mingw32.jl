@@ -3,8 +3,6 @@ export libpng
 
 using Zlib_jll
 ## Global variables
-const PATH_list = String[]
-const LIBPATH_list = String[]
 PATH = ""
 LIBPATH = ""
 LIBPATH_env = "PATH"
@@ -31,9 +29,9 @@ function __init__()
 
     # Initialize PATH and LIBPATH environment variable listings
     global PATH_list, LIBPATH_list
+    append!.(Ref(PATH_list), (Zlib_jll.PATH_list,))
+    append!.(Ref(LIBPATH_list), (Zlib_jll.LIBPATH_list,))
 
-    append!(PATH_list, Zlib_jll.PATH_list)
-    append!(LIBPATH_list, Zlib_jll.LIBPATH_list)
     global libpng_path = abspath(joinpath(artifact"libpng", libpng_splitpath...))
 
     # Manually `dlopen()` this right now so that future invocations
